@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Sprint — Product demos that close deals. $249. 72 hours.</title>
+<meta name="description" content="I take your product idea and build the demo that makes someone say yes. Live link in 72 hours. No calls. See it first, pay after.">
+<link rel="stylesheet" href="css/shared.css">
+<style>
+/* ── PAGE-SPECIFIC STYLES ───────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  height: 56px;
+  background: rgba(9,9,11,0.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 13px; font-weight:500;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  display:flex; align-items:center; gap:8px;
+}
+.nav-logo::before { content:'◆'; font-size:9px; }
+
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 12px; font-weight:500;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+  background: var(--amber);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background:#fbbf24; transform:translateY(-1px); }
+
+/* SECTIONS */
+section { position: relative; z-index:5; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing:0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 20px;
+  display:flex; align-items:center; gap:12px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content:''; display:block; width:32px; height:1px; background:var(--amber); opacity:0.4;
+}
+
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.hero-headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin: 16px auto 40px;
+}
+
+.hero-cta-row {
+  display:flex; align-items:center; justify-content:center;
+  gap: 16px; flex-wrap:wrap; margin-bottom:56px;
+}
+
+.btn-primary {
+  font-family: var(--body);
+  font-size: 16px; font-weight:600;
+  color: var(--bg);
+  background: var(--amber);
+  border: none;
+  padding: 15px 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display:flex; align-items:center; gap:8px;
+}
+.btn-primary::after { content:'→'; }
+.btn-primary:hover { background:#fbbf24; transform:translateY(-2px); box-shadow:0 10px 30px rgba(245,158,11,0.25); }
+
+.btn-secondary {
+  font-family: var(--mono);
+  font-size: 13px; letter-spacing:0.06em;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 14px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color:var(--border2); color:var(--text); }
+
+.hero-trust {
+  display:flex; align-items:center; gap:28px;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing:0.08em;
+  color: var(--dim);
+  flex-wrap:wrap; justify-content:center;
+}
+.hero-trust-item { display:flex; align-items:center; gap:7px; }
+.hero-trust-item svg { flex-shrink:0; }
+
+/* ── GRID BG ── */
+.grid-bg {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events:none;
+}
+.glow-orb {
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(80px);
+}
+.glow-1 { width:600px; height:600px; top:-200px; left:50%; transform:translateX(-50%); background:rgba(245,158,11,0.06); }
+.glow-2 { width:400px; height:400px; bottom:-100px; right:-100px; background:rgba(201,74,26,0.04); }
+
+/* ── HOW IT WORKS ── */
+.how {
+  padding: 100px 24px;
+  max-width: 900px; margin:0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing:0.2em;
+  text-transform:uppercase;
+  color: var(--amber);
+  margin-bottom:12px;
+  display:flex; align-items:center; gap:12px;
+}
+.section-label::before { content:'◆'; font-size:8px; }
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight:800; line-height:1.1;
+  letter-spacing:-0.02em;
+  color: var(--text);
+  margin-bottom:48px;
+}
+.section-title em { font-style:italic; font-weight:300; color:var(--amber); }
+
+.steps { display:flex; flex-direction:column; gap:0; }
+
+.step-item {
+  display:flex; gap:28px; align-items:flex-start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step-item:last-child { border:none; }
+
+.step-num-badge {
+  font-family: var(--mono);
+  font-size: 11px; font-weight:500;
+  letter-spacing:0.1em;
+  color: var(--amber);
+  background: var(--amber-dim);
+  border: 1px solid var(--amber-border);
+  border-radius: 4px;
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:2px;
+}
+
+.step-content h3 {
+  font-size:17px; font-weight:600;
+  color:var(--text); margin-bottom:6px;
+}
+.step-content p {
+  font-size:14px; font-weight:300;
+  color:var(--muted); line-height:1.7;
+}
+
+/* ── THREE PRODUCTS ── */
+.products {
+  padding: 100px 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.products-inner { max-width: 1100px; margin:0 auto; }
+
+.products-grid {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top:48px;
+}
+
+.product-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px;
+  display:flex; flex-direction:column; gap:0;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.product-card:hover { border-color:var(--amber); transform:translateY(-3px); }
+
+.product-icon {
+  font-size:28px; margin-bottom:16px;
+}
+
+.product-tag {
+  font-family: var(--mono);
+  font-size:10px; letter-spacing:0.14em;
+  text-transform:uppercase;
+  color: var(--amber);
+  margin-bottom:8px;
+}
+
+.product-title {
+  font-family: var(--serif);
+  font-size:22px; font-weight:800;
+  color:var(--text); margin-bottom:10px;
+  line-height:1.2;
+}
+
+.product-desc {
+  font-size:13px; font-weight:300;
+  color:var(--muted); line-height:1.7;
+  margin-bottom:20px; flex:1;
+}
+
+.product-target {
+  font-family: var(--mono);
+  font-size:10px; letter-spacing:0.08em;
+  color:var(--dim);
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius:4px;
+  margin-bottom:20px;
+}
+
+.product-demo-link {
+  font-family: var(--mono);
+  font-size:11px; letter-spacing:0.06em;
+  color:var(--muted);
+  text-decoration:none;
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding: 8px 14px;
+  display:flex; align-items:center; gap:7px;
+  transition: all 0.2s;
+  margin-bottom:10px;
+}
+.product-demo-link:hover { border-color:var(--border2); color:var(--text); }
+.product-demo-link::before { content:'↗'; font-size:10px; }
+
+.product-cta {
+  font-family: var(--body);
+  font-size:13px; font-weight:600;
+  color: var(--bg);
+  background: var(--amber);
+  border: none;
+  padding: 10px 20px;
+  border-radius:4px;
+  cursor: pointer;
+  width:100%;
+  transition: all 0.2s;
+}
+.product-cta:hover { background:#fbbf24; }
+
+/* ── PRICING ── */
+.pricing {
+  padding: 100px 24px;
+  max-width: 700px; margin:0 auto;
+  text-align:center;
+}
+
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--amber-border);
+  border-radius: 12px;
+  padding: 48px 40px;
+  margin-top:40px;
+  position:relative;
+  overflow:hidden;
+}
+
+.price-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+}
+
+.price-amount {
+  font-family: var(--mono);
+  font-size:64px; font-weight:500;
+  color:var(--text); letter-spacing:-0.02em;
+  margin-bottom:4px;
+  display:flex; align-items:flex-start; justify-content:center; gap:4px;
+}
+
+.price-amount sup {
+  font-size:24px; margin-top:14px; color:var(--amber);
+}
+
+.price-label {
+  font-family: var(--mono);
+  font-size:11px; letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted); margin-bottom:32px;
+}
+
+.price-features {
+  display:flex; flex-direction:column; gap:12px;
+  margin-bottom:36px; text-align:left;
+}
+
+.price-feature {
+  display:flex; align-items:flex-start; gap:12px;
+  font-size:15px; font-weight:300; color:var(--text); line-height:1.5;
+}
+
+.price-feature-check {
+  width:18px; height:18px;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:2px;
+  font-size:10px; color:var(--green);
+}
+
+.price-divider { height:1px; background:var(--border); margin:24px 0; }
+
+.price-guarantee {
+  font-family: var(--mono);
+  font-size:11px; letter-spacing:0.08em;
+  color:var(--amber); text-align:center;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.price-guarantee::before { content:'🛡'; }
+
+.btn-price-cta {
+  width:100%;
+  font-family: var(--body);
+  font-size:17px; font-weight:600;
+  color:var(--bg);
+  background:var(--amber);
+  border:none;
+  padding: 17px 32px;
+  border-radius:6px;
+  cursor:pointer;
+  transition: all 0.2s;
+  margin-bottom:16px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-price-cta::after { content:'→'; }
+.btn-price-cta:hover { background:#fbbf24; transform:translateY(-2px); box-shadow:0 10px 30px rgba(245,158,11,0.25); }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding: 32px 40px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:16px;
+  position:relative; z-index:5;
+}
+
+.footer-logo {
+  font-family:var(--mono);
+  font-size:12px; letter-spacing:0.14em;
+  color:var(--amber);
+  display:flex; align-items:center; gap:8px;
+}
+.footer-logo::before { content:'◆'; font-size:8px; }
+
+.footer-meta {
+  font-family:var(--mono);
+  font-size:11px; color:var(--dim); letter-spacing:0.06em;
+}
+
+.footer-cta {
+  font-family:var(--mono);
+  font-size:11px; font-weight:500;
+  color:var(--bg);
+  background:var(--amber);
+  border:none;
+  padding:8px 18px; border-radius:4px;
+  cursor:pointer; transition:all 0.2s;
+  letter-spacing:0.06em;
+}
+.footer-cta:hover { background:#fbbf24; }
+
+@media (max-width:768px) {
+  nav { padding:0 20px; }
+  .products-grid { grid-template-columns:1fr; }
+  .hero { padding:100px 20px 60px; }
+  .how, .products-inner, .pricing { padding-left:20px; padding-right:20px; }
+  footer { padding:24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- MODAL CONTAINER — brief modal lives here -->
+<div id="ds-brief-modal"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DEMO SPRINT</div>
+  <button class="nav-cta" onclick="openBriefModal()">Start your brief</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+
+  <div class="hero-eyebrow">Demo Sprint · $249 · 72-hour delivery</div>
+
+  <h1 class="hero-headline">
+    The demo that<br>makes them say <em>yes.</em>
+  </h1>
+
+  <p class="hero-sub">
+    I take your product — however complex — and build the output that closes deals.
+    Live link in 72 hours. No calls. You see it first. Pay only if you love it.
+  </p>
+
+  <div class="hero-cta-row">
+    <button class="btn-primary" onclick="openBriefModal()">Get your demo built</button>
+    <button class="btn-secondary" onclick="document.getElementById('demos').scrollIntoView({behavior:'smooth'})">See live examples</button>
+  </div>
+
+  <div class="hero-trust">
+    <div class="hero-trust-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      See it first · pay after
+    </div>
+    <div class="hero-trust-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      72-hour delivery
+    </div>
+    <div class="hero-trust-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.41 0l7.3-7.3a1 1 0 0 0 0-1.41L12 2z"/><circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>
+      Flat rate · no surprises
+    </div>
+    <div class="hero-trust-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      No calls required
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">From brief to <em>live link</em> in 72 hours.</h2>
+
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-num-badge">01</div>
+      <div class="step-content">
+        <h3>You fill the brief</h3>
+        <p>Tell me your product, your audience, and the one moment that should make them say yes. Takes 5 minutes. No calls needed.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-badge">02</div>
+      <div class="step-content">
+        <h3>I identify the value moment</h3>
+        <p>Every product has one output that closes deals — the dashboard, the report, the result. I find it and confirm it with you before building.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-badge">03</div>
+      <div class="step-content">
+        <h3>I build the output layer</h3>
+        <p>I build exactly what your product promises — with realistic pre-seeded data — so it looks completely real. Not a wireframe. Not a Figma file. A live, shareable link.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-badge">04</div>
+      <div class="step-content">
+        <h3>You review it first</h3>
+        <p>You get the live link before anything else. Review it, test it, share it with your team. One revision round included.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num-badge">05</div>
+      <div class="step-content">
+        <h3>Pay after you love it</h3>
+        <p>Only when you're satisfied do you pay. Invoice via bank transfer — works globally. Source files released on payment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE PRODUCTS / LIVE DEMOS -->
+<section class="products" id="demos">
+  <div class="products-inner">
+    <div class="section-label">Live examples</div>
+    <h2 class="section-title">Three products. One <em>value moment</em> each.</h2>
+
+    <div class="products-grid">
+
+      <!-- INVESTOR DEMO -->
+      <div class="product-card">
+        <div class="product-icon">💼</div>
+        <div class="product-tag">Investor Demo</div>
+        <div class="product-title">SEO Diagnostic</div>
+        <div class="product-desc">Makes investors ask "how do I get access?" not "so what does this do?" Built for pre-seed founders 2–8 weeks from their pitch.</div>
+        <div class="product-target">→ Target: Pre-seed founders · Pitch prep</div>
+        <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
+        <a class="product-demo-link" href="https://seo-demo-kohl.vercel.app/" target="_blank" rel="noopener">View live demo</a>
+        <button class="product-cta" onclick="openBriefModal()">Build mine →</button>
+      </div>
+
+      <!-- USER VALIDATION DEMO -->
+      <div class="product-card">
+        <div class="product-icon">🎨</div>
+        <div class="product-tag">Brand Exploration Demo</div>
+        <div class="product-title">Aura vs Aurabella</div>
+        <div class="product-desc">Interactive brand identity comparison. Three directions, two name options, colour palettes in context. See your brand before paying a designer.</div>
+        <div class="product-target">→ Target: Founders pre-launch · Brand decisions</div>
+        <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
+        <a class="product-demo-link" href="https://brand-exploration-aura-vs-aurabella-xi.vercel.app/" target="_blank" rel="noopener">View live demo</a>
+        <button class="product-cta" onclick="openBriefModal()">Build mine →</button>
+      </div>
+
+      <!-- SALES DEMO -->
+      <div class="product-card">
+        <div class="product-icon">📋</div>
+        <div class="product-tag">Sales Demo</div>
+        <div class="product-title">SimpleCRM Dashboard</div>
+        <div class="product-desc">Interactive walkthrough sent to leads instead of a PDF. Full pipeline view, live actions, realistic data. Closes B2B deals before the call.</div>
+        <div class="product-target">→ Target: B2B SaaS · Complex-service sellers</div>
+        <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
+        <a class="product-demo-link" href="https://simple-crm-demo-rpqa.vercel.app/" target="_blank" rel="noopener">View live demo</a>
+        <button class="product-cta" onclick="openBriefModal()">Build mine →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">One price. <em>No surprises.</em></h2>
+
+  <div class="price-card">
+    <div class="price-amount"><sup>$</sup>249</div>
+    <div class="price-label">Demo Sprint · Flat Rate · One Project</div>
+
+    <div class="price-features">
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>One core value output — 3–8 screens</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>Realistic pre-seeded mock data</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>Basic branding matched to your product</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>One revision round included</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>Hosted live link · 30 days</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>Source files released on payment</span></div>
+      <div class="price-feature"><div class="price-feature-check">✓</div><span>Delivered in 72 hours</span></div>
+    </div>
+
+    <div class="price-divider"></div>
+    <div class="price-guarantee">You review the demo before any payment is required.</div>
+    <div class="price-divider"></div>
+
+    <button class="btn-price-cta" onclick="openBriefModal()">Start your brief — it takes 5 minutes</button>
+
+    <div style="font-family:var(--mono);font-size:11px;color:var(--dim);text-align:center;letter-spacing:0.06em;">
+      No calls · No retainer · Works globally
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DEMO SPRINT</div>
+  <div class="footer-meta">Muhammad Irfan Shafi · Faisalabad, Pakistan · Available worldwide</div>
+  <button class="footer-cta" onclick="openBriefModal()">Start your brief →</button>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="js/supabase-client.js"></script>
+<script src="js/brief-modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Exploration — Demo Sprint Live Example</title>
+<link rel="stylesheet" href="../../css/shared.css">
+<!-- Original SEO demo styles injected below -->
+<style>
+/* Push demo content below fixed nav and above fixed watermark */
+body { padding-top: 48px; padding-bottom: 40px; }
+</style>
+</head>
+<body>
+
+<!-- DEMO SPRINT NAV -->
+<nav class="ds-nav">
+  <a class="ds-nav-logo" href="/">DEMO SPRINT</a>
+  <button class="ds-nav-cta" onclick="openBriefModal()">Get yours built</button>
+</nav>
+
+<!-- BRIEF MODAL CONTAINER -->
+<div id="ds-brief-modal"></div>
+
+<!-- ═══════════════════════════════════════════
+     ORIGINAL SEO DEMO CONTENT STARTS HERE
+     Paste the full contents of brand demo
+     BETWEEN the <body> tags (excluding <head>)
+     below this comment block.
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header">
+  <h1>Aura &mdash; Brand Exploration</h1>
+  <span>3 Directions &nbsp;&middot;&nbsp; 2 Names &nbsp;&middot;&nbsp; 24 Variants</span>
+</header>
+
+<div class="container">
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="tab-group">
+      <button class="tab-btn active" data-panel="all">Overview</button>
+      <button class="tab-btn" data-panel="luxury">Luxury Prestige</button>
+      <button class="tab-btn" data-panel="corporate">Corporate Trust</button>
+      <button class="tab-btn" data-panel="boutique">Boutique Lifestyle</button>
+    </div>
+
+    <div class="name-toggle">
+      <label>Name</label>
+      <div class="toggle-switch">
+        <button class="name-btn active" data-name="both">Both</button>
+        <button class="name-btn" data-name="aura-property">Aura Property</button>
+        <button class="name-btn" data-name="aurabella-properties">Aurabella Properties</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       PANEL: Overview
+  ════════════════════════════════════════════════ -->
+  <div id="panel-all" class="panel active">
+
+    <div class="direction-block">
+      <div class="direction-label">Luxury Prestige</div>
+      <div class="palette-row">
+        <div class="palette-chip"><div class="palette-swatch" style="background:#F6F1E7"></div> Parchment</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#161616"></div> Onyx</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#B08D57"></div> Gold</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#552448"></div> Burgundy</div>
+      </div>
+      <div class="logo-grid" id="grid-all-luxury"></div>
+    </div>
+
+    <div class="direction-block">
+      <div class="direction-label">Corporate Trust</div>
+      <div class="palette-row">
+        <div class="palette-chip"><div class="palette-swatch" style="background:#ffffff;border:1px solid #ccc"></div> White</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#0b1f3b"></div> Navy</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#7a8794"></div> Steel</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#F3F4F6;border:1px solid #ccc"></div> Neutral</div>
+      </div>
+      <div class="logo-grid" id="grid-all-corporate"></div>
+    </div>
+
+    <div class="direction-block">
+      <div class="direction-label">Boutique Lifestyle</div>
+      <div class="palette-row">
+        <div class="palette-chip"><div class="palette-swatch" style="background:#F6F1E7"></div> Parchment</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#2f2f2f"></div> Charcoal</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#c16a4a"></div> Terracotta</div>
+        <div class="palette-chip"><div class="palette-swatch" style="background:#6f8a78"></div> Sage</div>
+      </div>
+      <div class="logo-grid" id="grid-all-boutique"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       PANEL: Luxury Prestige
+  ════════════════════════════════════════════════ -->
+  <div id="panel-luxury" class="panel">
+    <div class="section-meta">
+      <h2>Luxury Prestige</h2>
+      <p>Georgia serif &nbsp;&middot;&nbsp; Warm parchment &amp; onyx palette &nbsp;&middot;&nbsp; Gold accent &nbsp;&middot;&nbsp; Heritage burgundy</p>
+    </div>
+    <div class="palette-row">
+      <div class="palette-chip"><div class="palette-swatch" style="background:#F6F1E7"></div> Parchment #F6F1E7</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#161616"></div> Onyx #161616</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#B08D57"></div> Gold #B08D57</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#552448"></div> Burgundy #552448</div>
+    </div>
+    <div class="logo-grid" id="grid-luxury"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       PANEL: Corporate Trust
+  ════════════════════════════════════════════════ -->
+  <div id="panel-corporate" class="panel">
+    <div class="section-meta">
+      <h2>Corporate Trust</h2>
+      <p>Helvetica Neue sans-serif &nbsp;&middot;&nbsp; Clean white &amp; navy palette &nbsp;&middot;&nbsp; Steel &amp; neutral variants</p>
+    </div>
+    <div class="palette-row">
+      <div class="palette-chip"><div class="palette-swatch" style="background:#ffffff;border:1px solid #ccc"></div> White #FFFFFF</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#0b1f3b"></div> Navy #0b1f3b</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#7a8794"></div> Steel #7a8794</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#F3F4F6;border:1px solid #ccc"></div> Neutral #F3F4F6</div>
+    </div>
+    <div class="logo-grid" id="grid-corporate"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       PANEL: Boutique Lifestyle
+  ════════════════════════════════════════════════ -->
+  <div id="panel-boutique" class="panel">
+    <div class="section-meta">
+      <h2>Boutique Lifestyle</h2>
+      <p>Cormorant Garamond serif &nbsp;&middot;&nbsp; Warm parchment &amp; charcoal palette &nbsp;&middot;&nbsp; Elegant monogram</p>
+    </div>
+    <div class="palette-row">
+      <div class="palette-chip"><div class="palette-swatch" style="background:#F6F1E7"></div> Parchment #F6F1E7</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#2f2f2f"></div> Charcoal #2f2f2f</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#c16a4a"></div> Terracotta #c16a4a</div>
+      <div class="palette-chip"><div class="palette-swatch" style="background:#6f8a78"></div> Sage #6f8a78</div>
+    </div>
+    <div class="logo-grid" id="grid-boutique"></div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  // ─── Logo data ─────────────────────────────────────────────────
+  const LOGOS = [
+    // Luxury Prestige — aura-property
+    { dir: 'luxury', name: 'aura-property', variant: 'Primary',  file: 'logos/luxury-prestige/aura-property_luxury_primary.svg',  colors: ['#F6F1E7','#161616'] },
+    { dir: 'luxury', name: 'aura-property', variant: 'Reverse',  file: 'logos/luxury-prestige/aura-property_luxury_reverse.svg',  colors: ['#161616','#F6F1E7'] },
+    { dir: 'luxury', name: 'aura-property', variant: 'Accent',   file: 'logos/luxury-prestige/aura-property_luxury_accent.svg',   colors: ['#F6F1E7','#161616','#B08D57'] },
+    { dir: 'luxury', name: 'aura-property', variant: 'Heritage', file: 'logos/luxury-prestige/aura-property_luxury_heritage.svg', colors: ['#F6F1E7','#552448'] },
+
+    // Luxury Prestige — aurabella-properties
+    { dir: 'luxury', name: 'aurabella-properties', variant: 'Primary',  file: 'logos/luxury-prestige/aurabella-properties_luxury_primary.svg',  colors: ['#F6F1E7','#161616'] },
+    { dir: 'luxury', name: 'aurabella-properties', variant: 'Reverse',  file: 'logos/luxury-prestige/aurabella-properties_luxury_reverse.svg',  colors: ['#161616','#F6F1E7'] },
+    { dir: 'luxury', name: 'aurabella-properties', variant: 'Accent',   file: 'logos/luxury-prestige/aurabella-properties_luxury_accent.svg',   colors: ['#F6F1E7','#161616','#B08D57'] },
+    { dir: 'luxury', name: 'aurabella-properties', variant: 'Heritage', file: 'logos/luxury-prestige/aurabella-properties_luxury_heritage.svg', colors: ['#F6F1E7','#552448'] },
+
+    // Corporate Trust — aura-property
+    { dir: 'corporate', name: 'aura-property', variant: 'Primary', file: 'logos/corporate-trust/aura-property_corporate_primary.svg', colors: ['#FFFFFF','#0b1f3b'] },
+    { dir: 'corporate', name: 'aura-property', variant: 'Reverse', file: 'logos/corporate-trust/aura-property_corporate_reverse.svg', colors: ['#0b1f3b','#FFFFFF'] },
+    { dir: 'corporate', name: 'aura-property', variant: 'Steel',   file: 'logos/corporate-trust/aura-property_corporate_steel.svg',   colors: ['#FFFFFF','#7a8794'] },
+    { dir: 'corporate', name: 'aura-property', variant: 'Neutral', file: 'logos/corporate-trust/aura-property_corporate_neutral.svg', colors: ['#F3F4F6','#161616'] },
+
+    // Corporate Trust — aurabella-properties
+    { dir: 'corporate', name: 'aurabella-properties', variant: 'Primary', file: 'logos/corporate-trust/aurabella-properties_corporate_primary.svg', colors: ['#FFFFFF','#0b1f3b'] },
+    { dir: 'corporate', name: 'aurabella-properties', variant: 'Reverse', file: 'logos/corporate-trust/aurabella-properties_corporate_reverse.svg', colors: ['#0b1f3b','#FFFFFF'] },
+    { dir: 'corporate', name: 'aurabella-properties', variant: 'Steel',   file: 'logos/corporate-trust/aurabella-properties_corporate_steel.svg',   colors: ['#FFFFFF','#7a8794'] },
+    { dir: 'corporate', name: 'aurabella-properties', variant: 'Neutral', file: 'logos/corporate-trust/aurabella-properties_corporate_neutral.svg', colors: ['#F3F4F6','#161616'] },
+
+    // Boutique Lifestyle — aura-property
+    { dir: 'boutique', name: 'aura-property', variant: 'Primary',   file: 'logos/boutique-lifestyle/aura-property_boutique_primary.svg',   colors: ['#F6F1E7','#2f2f2f'] },
+    { dir: 'boutique', name: 'aura-property', variant: 'Reverse',   file: 'logos/boutique-lifestyle/aura-property_boutique_reverse.svg',   colors: ['#2f2f2f','#F6F1E7'] },
+    { dir: 'boutique', name: 'aura-property', variant: 'Accent',    file: 'logos/boutique-lifestyle/aura-property_boutique_accent.svg',    colors: ['#F6F1E7','#c16a4a','#2f2f2f'] },
+    { dir: 'boutique', name: 'aura-property', variant: 'Lifestyle', file: 'logos/boutique-lifestyle/aura-property_boutique_lifestyle.svg', colors: ['#F6F1E7','#6f8a78'] },
+
+    // Boutique Lifestyle — aurabella-properties
+    { dir: 'boutique', name: 'aurabella-properties', variant: 'Primary',   file: 'logos/boutique-lifestyle/aurabella-properties_boutique_primary.svg',   colors: ['#F6F1E7','#2f2f2f'] },
+    { dir: 'boutique', name: 'aurabella-properties', variant: 'Reverse',   file: 'logos/boutique-lifestyle/aurabella-properties_boutique_reverse.svg',   colors: ['#2f2f2f','#F6F1E7'] },
+    { dir: 'boutique', name: 'aurabella-properties', variant: 'Accent',    file: 'logos/boutique-lifestyle/aurabella-properties_boutique_accent.svg',    colors: ['#F6F1E7','#c16a4a','#2f2f2f'] },
+    { dir: 'boutique', name: 'aurabella-properties', variant: 'Lifestyle', file: 'logos/boutique-lifestyle/aurabella-properties_boutique_lifestyle.svg', colors: ['#F6F1E7','#6f8a78'] },
+  ];
+
+  // ─── State ─────────────────────────────────────────────────────
+  let activePanel = 'all';
+  let activeName  = 'both';
+
+  // ─── Render a card ─────────────────────────────────────────────
+  function makeCard(logo) {
+    const label = logo.name === 'aura-property' ? 'Aura Property' : 'Aurabella Properties';
+    const dots  = logo.colors.map(c =>
+      `<div class="color-dot" style="background:${c}" title="${c}"></div>`
+    ).join('');
+
+    return `
+      <div class="logo-card" data-dir="${logo.dir}" data-name="${logo.name}">
+        <div class="logo-card-inner">
+          <img src="${logo.file}" alt="${label} — ${logo.variant}" loading="lazy" />
+        </div>
+        <div class="logo-card-footer">
+          <span class="variant-name">${logo.variant} &nbsp;<span style="font-weight:400;color:#aaa">&middot; ${label}</span></span>
+          <div class="color-dots">${dots}</div>
+        </div>
+      </div>`;
+  }
+
+  // ─── Populate a grid ───────────────────────────────────────────
+  function populateGrid(containerId, dir, nameFilter) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const filtered = LOGOS.filter(l =>
+      l.dir === dir &&
+      (nameFilter === 'both' || l.name === nameFilter)
+    );
+    el.innerHTML = filtered.map(makeCard).join('');
+  }
+
+  function renderAll() {
+    ['luxury','corporate','boutique'].forEach(dir => {
+      populateGrid(`grid-all-${dir}`, dir, activeName);
+      populateGrid(`grid-${dir}`, dir, activeName);
+    });
+  }
+
+  // ─── Tab switching ─────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activePanel = btn.dataset.panel;
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`panel-${activePanel}`).classList.add('active');
+    });
+  });
+
+  // ─── Name filter ───────────────────────────────────────────────
+  document.querySelectorAll('.name-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeName = btn.dataset.name;
+      renderAll();
+    });
+  });
+
+  // ─── Initial render ────────────────────────────────────────────
+  renderAll();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     ORIGINAL SEO DEMO CONTENT ENDS HERE
+     ═══════════════════════════════════════════ -->
+
+<!-- WATERMARK STRIP -->
+<div class="ds-watermark">
+  <span class="ds-watermark-brand">DEMO SPRINT</span>
+  <span class="ds-watermark-sep">·</span>
+  <span>Built in 72 hours · $249</span>
+  <span class="ds-watermark-sep">·</span>
+  <button class="ds-watermark-cta" onclick="openBriefModal()">Get yours built →</button>
+</div>
+
+<script src="../../js/supabase-client.js"></script>
+<script src="../../js/brief-modal.js"></script>
+</body>
+</html>
+

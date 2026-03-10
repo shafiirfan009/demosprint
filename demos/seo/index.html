@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Diagnostic — Demo Sprint Live Example</title>
+<link rel="stylesheet" href="../../css/shared.css">
+<!-- Original SEO demo styles injected below -->
+<style>
+/* Push demo content below fixed nav and above fixed watermark */
+body { padding-top: 48px; padding-bottom: 40px; }
+</style>
+</head>
+<body>
+
+<!-- DEMO SPRINT NAV -->
+<nav class="ds-nav">
+  <a class="ds-nav-logo" href="/">DEMO SPRINT</a>
+  <button class="ds-nav-cta" onclick="openBriefModal()">Get yours built</button>
+</nav>
+
+<!-- BRIEF MODAL CONTAINER -->
+<div id="ds-brief-modal"></div>
+
+<!-- ═══════════════════════════════════════════
+     ORIGINAL SEO DEMO CONTENT STARTS HERE
+     Paste the full contents of seo-demo.html
+     BETWEEN the <body> tags (excluding <head>)
+     below this comment block.
+     ═══════════════════════════════════════════ -->
+
+<!-- ── INPUT SCREEN ── -->
+<div id="screen-input" class="screen active">
+  <div class="input-logo">InboundIQ · SEO Diagnostic</div>
+
+  <div class="input-hero">
+    <h1>Inbound SEO<br><span>Diagnostic System</span></h1>
+    <p>Enter any URL. Get a full 4-phase SEO audit — technical, content, trust, and geo — with a prioritised roadmap in seconds.</p>
+  </div>
+
+  <div class="url-form">
+    <div class="url-input-wrap">
+      <span class="url-prefix">https://</span>
+      <input type="text" id="url-input" placeholder="yourdomain.com" value="">
+      <button class="analyze-btn" onclick="startAnalysis()">Analyze →</button>
+    </div>
+  </div>
+
+  <div class="demo-hint">
+    Try a demo: <button onclick="fillDemo()">techflow.io</button> or enter any URL
+  </div>
+
+  <div class="input-features">
+    <div class="input-feat"><span class="feat-dot"></span>4-Phase Audit Engine</div>
+    <div class="input-feat"><span class="feat-dot"></span>Screaming Frog Benchmarks</div>
+    <div class="input-feat"><span class="feat-dot"></span>Priority Roadmap</div>
+    <div class="input-feat"><span class="feat-dot"></span>Evidence Tags</div>
+  </div>
+</div>
+
+<!-- ── PROCESSING SCREEN ── -->
+<div id="screen-processing" class="screen">
+  <div class="processing-card">
+    <div class="proc-header">
+      <div class="proc-spinner"></div>
+      <div class="proc-url" id="proc-url-display">techflow.io</div>
+    </div>
+    <div class="proc-body">
+      <div class="proc-phase" id="phase-crawl">
+        <div class="phase-icon">🕷</div>
+        <div class="phase-info">
+          <div class="phase-name">Crawler</div>
+          <div class="phase-status" id="status-crawl">Queued</div>
+        </div>
+        <div class="phase-check">✓</div>
+      </div>
+      <div class="proc-phase" id="phase-tech">
+        <div class="phase-icon">⚙</div>
+        <div class="phase-info">
+          <div class="phase-name">Technical Audit</div>
+          <div class="phase-status" id="status-tech">Queued</div>
+        </div>
+        <div class="phase-check">✓</div>
+      </div>
+      <div class="proc-phase" id="phase-content">
+        <div class="phase-icon">📝</div>
+        <div class="phase-info">
+          <div class="phase-name">Content Audit</div>
+          <div class="phase-status" id="status-content">Queued</div>
+        </div>
+        <div class="phase-check">✓</div>
+      </div>
+      <div class="proc-phase" id="phase-trust">
+        <div class="phase-icon">🛡</div>
+        <div class="phase-info">
+          <div class="phase-name">Trust & Authority</div>
+          <div class="phase-status" id="status-trust">Queued</div>
+        </div>
+        <div class="phase-check">✓</div>
+      </div>
+      <div class="proc-phase" id="phase-geo">
+        <div class="phase-icon">🌍</div>
+        <div class="phase-info">
+          <div class="phase-name">Geo & Local SEO</div>
+          <div class="phase-status" id="status-geo">Queued</div>
+        </div>
+        <div class="phase-check">✓</div>
+      </div>
+    </div>
+    <div class="proc-steps" id="proc-log"></div>
+  </div>
+</div>
+
+<!-- ── RESULTS SCREEN ── -->
+<div id="screen-results" class="screen">
+  <nav class="results-nav">
+    <div class="results-logo">InboundIQ</div>
+    <div class="results-url" id="results-url-display">techflow.io</div>
+    <div class="results-date" id="results-date"></div>
+  </nav>
+
+  <div class="results-body">
+    <!-- Overview -->
+    <div class="overview-row">
+      <div class="score-circle-wrap">
+        <div class="score-circle" id="main-score-circle">
+          <svg viewBox="0 0 140 140">
+            <circle class="track" cx="70" cy="70" r="54"/>
+            <circle class="fill-arc" cx="70" cy="70" r="54" stroke="#3fb950"/>
+          </svg>
+          <div class="score-center">
+            <div class="score-big" id="main-score-val">71</div>
+            <div class="score-max">/100</div>
+          </div>
+        </div>
+        <div class="score-label-main">Overall Score</div>
+      </div>
+
+      <!-- Phase scores -->
+      <div class="phase-scores-row">
+        <div class="phase-card tech selected" onclick="switchPhase('tech', this)">
+          <div class="phase-card-header">
+            <span class="phase-card-name">Technical</span>
+            <span class="phase-card-badge badge-warn">Average</span>
+          </div>
+          <div class="phase-score-num">78</div>
+          <div class="phase-bar-wrap"><div class="phase-bar-fill" style="width:78%"></div></div>
+          <div class="phase-issues">6 issues found</div>
+        </div>
+        <div class="phase-card content" onclick="switchPhase('content', this)">
+          <div class="phase-card-header">
+            <span class="phase-card-name">Content</span>
+            <span class="phase-card-badge badge-crit">Critical</span>
+          </div>
+          <div class="phase-score-num">64</div>
+          <div class="phase-bar-wrap"><div class="phase-bar-fill" style="width:64%"></div></div>
+          <div class="phase-issues">11 issues found</div>
+        </div>
+        <div class="phase-card trust" onclick="switchPhase('trust', this)">
+          <div class="phase-card-header">
+            <span class="phase-card-name">Trust</span>
+            <span class="phase-card-badge badge-good">Good</span>
+          </div>
+          <div class="phase-score-num">89</div>
+          <div class="phase-bar-wrap"><div class="phase-bar-fill" style="width:89%"></div></div>
+          <div class="phase-issues">2 issues found</div>
+        </div>
+        <div class="phase-card geo" onclick="switchPhase('geo', this)">
+          <div class="phase-card-header">
+            <span class="phase-card-name">Geo</span>
+            <span class="phase-card-badge badge-crit">Critical</span>
+          </div>
+          <div class="phase-score-num">52</div>
+          <div class="phase-bar-wrap"><div class="phase-bar-fill" style="width:52%"></div></div>
+          <div class="phase-issues">8 issues found</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Industry Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="metric-name">LCP</div>
+        <div class="metric-val amber">3.8s</div>
+        <div class="metric-bench">Target: &lt;2.5s</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-name">CLS</div>
+        <div class="metric-val green">0.04</div>
+        <div class="metric-bench">Target: &lt;0.1</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-name">FID</div>
+        <div class="metric-val amber">140ms</div>
+        <div class="metric-bench">Target: &lt;100ms</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-name">Backlinks</div>
+        <div class="metric-val blue">1,847</div>
+        <div class="metric-bench">Industry avg: 2,100</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-name">Domain Rating</div>
+        <div class="metric-val green">44</div>
+        <div class="metric-bench">Competitor avg: 38</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-name">Index Coverage</div>
+        <div class="metric-val red">73%</div>
+        <div class="metric-bench">Target: &gt;95%</div>
+      </div>
+    </div>
+
+    <!-- Detail + Roadmap -->
+    <div class="detail-grid">
+      <!-- Phase Detail -->
+      <div class="phase-detail">
+        <div class="detail-header">
+          <span class="detail-phase-name" id="detail-phase-label">Technical Audit</span>
+          <div class="tag-cloud" id="detail-tags"></div>
+        </div>
+        <div class="detail-tabs">
+          <button class="detail-tab active" onclick="switchTab('evidence', this)">Evidence</button>
+          <button class="detail-tab" onclick="switchTab('tags', this)">Tags</button>
+        </div>
+        <div class="detail-content" id="detail-content"></div>
+      </div>
+
+      <!-- Roadmap -->
+      <div class="roadmap-panel">
+        <div class="roadmap-header">
+          <div class="roadmap-title">Priority Roadmap</div>
+          <div class="roadmap-sub">8 actions · ranked by impact × effort</div>
+        </div>
+        <div class="roadmap-list">
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#1</div>
+              <div class="ri-impact impact-high">High</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Fix broken canonical tags on 12 pages</div>
+              <div class="ri-desc">Canonicals pointing to wrong URLs are blocking crawl budget and splitting link equity. Fix before next index crawl.</div>
+              <div class="ri-phase-tag">Technical</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#2</div>
+              <div class="ri-impact impact-high">High</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Compress hero image — LCP from 3.8s → &lt;2.5s</div>
+              <div class="ri-desc">Main hero JPEG is 1.4MB uncompressed. Switching to WebP + lazy loading will pass Core Web Vitals threshold.</div>
+              <div class="ri-phase-tag">Technical</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#3</div>
+              <div class="ri-impact impact-high">High</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Add H1 tags to 9 service pages missing them</div>
+              <div class="ri-desc">Service pages have no H1 — search engines have no primary keyword signal. Each page needs one unique, keyword-led H1.</div>
+              <div class="ri-phase-tag">Content</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#4</div>
+              <div class="ri-impact impact-high">High</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Create Google Business Profile — Geo score: 52</div>
+              <div class="ri-desc">No GBP listing found. Local pack rankings are impossible without it. Setup takes 30 minutes, impact is immediate.</div>
+              <div class="ri-phase-tag">Geo</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#5</div>
+              <div class="ri-impact impact-med">Med</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Add schema markup to service + FAQ pages</div>
+              <div class="ri-desc">Zero structured data detected. Adding Service, FAQ, and BreadcrumbList schema enables rich results and improves CTR.</div>
+              <div class="ri-phase-tag">Content</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#6</div>
+              <div class="ri-impact impact-med">Med</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Fix 27% of pages with duplicate meta descriptions</div>
+              <div class="ri-desc">18 pages share identical meta descriptions. Each needs a unique 150–160 character description optimised for its target keyword.</div>
+              <div class="ri-phase-tag">Content</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#7</div>
+              <div class="ri-impact impact-med">Med</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Add NAP consistency across 8 local citations</div>
+              <div class="ri-desc">Name, address, phone number varies across Yelp, YellowPages, and 6 other directories. Inconsistency suppresses local ranking.</div>
+              <div class="ri-phase-tag">Geo</div>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="ri-priority">
+              <div class="ri-num">#8</div>
+              <div class="ri-impact impact-low">Low</div>
+            </div>
+            <div class="ri-content">
+              <div class="ri-title">Update XML sitemap — 6 redirect URLs included</div>
+              <div class="ri-desc">Sitemap contains 6 URLs that 301 redirect elsewhere. Replace with final destination URLs to avoid unnecessary redirect hops.</div>
+              <div class="ri-phase-tag">Technical</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Demo watermark -->
+<div class="demo-watermark" id="demo-badge" style="display:none">
+  <span>DEMO SPRINT</span> · Built in 72hrs · demosprint.app
+</div>
+
+<script>
+// Phase data
+const phaseData = {
+  tech: {
+    label: 'Technical Audit',
+    tags: ['canonical-error','crawl-issue','lcp-fail','sitemap-issue','robots-ok','https-ok','mobile-ok','hreflang-missing'],
+    evidence: [
+      { type: 'fail', title: '12 pages with broken canonical tags', desc: 'Canonicals point to non-existent or redirecting URLs. Crawlers are likely consolidating equity incorrectly.' },
+      { type: 'fail', title: 'LCP of 3.8s — fails Core Web Vitals', desc: 'Hero image (1.4MB JPEG) is the primary LCP element. Google\'s threshold is 2.5s for "Good" rating.' },
+      { type: 'warn', title: 'XML sitemap includes 6 redirect URLs', desc: 'Sitemap should contain only canonical, indexable URLs. Redirect hops in sitemap waste crawl budget.' },
+      { type: 'warn', title: 'No hreflang tags on international pages', desc: '3 pages serve content in multiple languages with no hreflang. Google may serve the wrong version to users.' },
+      { type: 'pass', title: 'HTTPS correctly implemented sitewide', desc: 'All URLs serve over HTTPS with valid certificate. No mixed content issues detected.' },
+      { type: 'pass', title: 'Mobile viewport correctly configured', desc: 'Viewport meta tag present, content does not overflow on 375px viewport.' },
+    ]
+  },
+  content: {
+    label: 'Content Audit',
+    tags: ['missing-h1','duplicate-meta','thin-content','keyword-gap','faq-schema-missing','title-truncated','image-alt-missing','internal-links-low'],
+    evidence: [
+      { type: 'fail', title: '9 service pages missing H1 tags', desc: 'No H1 element means no primary keyword signal. Search engines fall back to title tags, which are less precise.' },
+      { type: 'fail', title: '18 pages with duplicate meta descriptions', desc: '27% of all pages share identical meta descriptions. This suppresses click-through rates in search results.' },
+      { type: 'fail', title: 'Thin content — 6 pages under 300 words', desc: 'These pages compete for head terms but lack sufficient depth. Google\'s Helpful Content system penalises thin pages.' },
+      { type: 'warn', title: 'Zero schema markup detected across all pages', desc: 'No Service, FAQ, BreadcrumbList, or Organization schema. Missing rich result eligibility and trust signals.' },
+      { type: 'warn', title: '23 images missing alt text attributes', desc: 'Alt text is both an accessibility requirement and an image SEO signal. Missing on 23 images including hero elements.' },
+      { type: 'pass', title: 'Title tags within 50–60 character limit', desc: 'All indexed page titles are within Google\'s display range. No truncation in SERP titles.' },
+    ]
+  },
+  trust: {
+    label: 'Trust & Authority',
+    tags: ['ssl-valid','dr-44','backlinks-1847','toxic-links-low','brand-mentions-ok','anchor-diversity-good','referring-domains-240','trust-flow-32'],
+    evidence: [
+      { type: 'pass', title: 'Domain Rating 44 — above competitor average', desc: 'DR 44 exceeds the industry average of 38 for your category. Strong foundation for ranking competitive terms.' },
+      { type: 'pass', title: '1,847 backlinks from 240 referring domains', desc: 'Healthy link profile with good diversity. Anchor text distribution is natural with no over-optimisation.' },
+      { type: 'pass', title: 'Toxic link score below 5% threshold', desc: 'Screaming Frog benchmark: under 5% toxic links. Your profile is at 3.2% — within safe range, no disavow needed.' },
+      { type: 'warn', title: 'Trust Flow at 32 — room to improve', desc: 'Majestic Trust Flow of 32 indicates some link quality gaps. Acquiring links from higher-authority domains would raise this.' },
+      { type: 'pass', title: 'SSL certificate valid, 348 days remaining', desc: 'TLS 1.3 with auto-renewal configured. No certificate warnings in any major browser.' },
+      { type: 'pass', title: 'Brand mentions tracked in 14 publications', desc: 'Unlinked brand mentions present on 14 referring domains — these are link reclamation opportunities.' },
+    ]
+  },
+  geo: {
+    label: 'Geo & Local SEO',
+    tags: ['no-gbp','nap-inconsistent','local-schema-missing','gmb-reviews-unknown','citation-gaps','city-pages-missing','near-me-unoptimised','local-backlinks-low'],
+    evidence: [
+      { type: 'fail', title: 'No Google Business Profile found', desc: 'Critical for local pack rankings. Without GBP, the domain cannot appear in map results or local 3-pack.' },
+      { type: 'fail', title: 'NAP inconsistency across 8 directories', desc: 'Name, address, and phone varies across Yelp, YellowPages, Hotfrog, and 5 others. Google cross-references these signals.' },
+      { type: 'fail', title: 'No LocalBusiness schema on contact page', desc: 'Contact page lacks structured data. Adding LocalBusiness schema with address and phone number is a quick trust win.' },
+      { type: 'fail', title: 'No location-specific landing pages', desc: 'Domain serves 3 cities but has no dedicated pages per city. Generic pages cannot rank for "[service] + [city]" queries.' },
+      { type: 'warn', title: 'Local citation count below industry benchmark', desc: 'Detected 12 citations against a benchmark of 25+ for this category. Priority: build citations on Bing Places, Apple Maps, and Foursquare.' },
+      { type: 'warn', title: '"Near me" keywords absent from on-page copy', desc: 'Zero instances of "near me" or "in [city]" in any on-page content. Missed opportunity for high-intent local queries.' },
+    ]
+  }
+};
+
+let currentPhase = 'tech';
+let currentTab = 'evidence';
+
+function fillDemo() {
+  document.getElementById('url-input').value = 'techflow.io';
+}
+
+function startAnalysis() {
+  const url = document.getElementById('url-input').value.trim() || 'techflow.io';
+  document.getElementById('proc-url-display').textContent = url;
+  document.getElementById('results-url-display').textContent = url;
+  document.getElementById('results-date').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  showScreen('processing');
+  runProcessing();
+}
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+  const s = document.getElementById('screen-' + name);
+  s.style.display = 'flex';
+  setTimeout(() => s.classList.add('active'), 10);
+}
+
+const steps = [
+  { phase: 'crawl', lines: [
+    { text: '> Initialising crawler agent...', cls: '' },
+    { text: '> robots.txt fetched — no crawl blocks', cls: 'green' },
+    { text: '> Sitemap parsed: 67 URLs queued', cls: 'green' },
+    { text: '> Pages crawled: 67 / 67 ✓', cls: 'green' },
+  ]},
+  { phase: 'tech', lines: [
+    { text: '> Running technical checks (24 rules)...', cls: '' },
+    { text: '> Core Web Vitals: LCP 3.8s [FAIL]', cls: '' },
+    { text: '> Canonical validation: 12 errors found', cls: '' },
+    { text: '> HTTPS, mobile, structured URLs: PASS', cls: 'green' },
+  ]},
+  { phase: 'content', lines: [
+    { text: '> Analysing content signals...', cls: '' },
+    { text: '> H1 audit: 9 pages missing H1 [FAIL]', cls: '' },
+    { text: '> Meta description scan: 18 duplicates', cls: '' },
+    { text: '> Schema markup: none detected [FAIL]', cls: '' },
+  ]},
+  { phase: 'trust', lines: [
+    { text: '> Querying link database...', cls: 'blue' },
+    { text: '> Domain Rating: 44 / Backlinks: 1,847', cls: 'green' },
+    { text: '> Toxic link ratio: 3.2% [PASS]', cls: 'green' },
+    { text: '> Trust & authority analysis complete ✓', cls: 'green' },
+  ]},
+  { phase: 'geo', lines: [
+    { text: '> Scanning local SEO signals...', cls: '' },
+    { text: '> Google Business Profile: NOT FOUND [FAIL]', cls: '' },
+    { text: '> Citation scan: 12 found, 8 inconsistent', cls: '' },
+    { text: '> Local schema: missing [FAIL]', cls: '' },
+  ]},
+];
+
+function runProcessing() {
+  const log = document.getElementById('proc-log');
+  log.innerHTML = '';
+  let stepIdx = 0;
+
+  function runStep() {
+    if (stepIdx >= steps.length) {
+      setTimeout(() => {
+        showScreen('results');
+        document.getElementById('demo-badge').style.display = 'flex';
+        setTimeout(animateResults, 300);
+      }, 600);
+      return;
+    }
+
+    const step = steps[stepIdx];
+    const phaseEl = document.getElementById('phase-' + step.phase);
+    const statusEl = document.getElementById('status-' + step.phase);
+
+    phaseEl.classList.add('running');
+    log.innerHTML = '';
+
+    let lineIdx = 0;
+    function addLine() {
+      if (lineIdx >= step.lines.length) {
+        phaseEl.classList.remove('running');
+        phaseEl.classList.add('done');
+        statusEl.textContent = 'Complete';
+        stepIdx++;
+        setTimeout(runStep, 400);
+        return;
+      }
+      const l = step.lines[lineIdx];
+      const div = document.createElement('div');
+      div.className = 'proc-step-line ' + l.cls;
+      div.textContent = l.text;
+      log.appendChild(div);
+      lineIdx++;
+      setTimeout(addLine, 280);
+    }
+
+    statusEl.textContent = 'Running...';
+    setTimeout(addLine, 100);
+  }
+
+  setTimeout(runStep, 400);
+}
+
+function animateResults() {
+  const circle = document.getElementById('main-score-circle');
+  circle.classList.add('animated');
+  renderPhaseDetail('tech');
+}
+
+function switchPhase(phase, card) {
+  document.querySelectorAll('.phase-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  currentPhase = phase;
+  renderPhaseDetail(phase);
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentTab = tab;
+  renderTabContent(currentPhase, tab);
+}
+
+function renderPhaseDetail(phase) {
+  const data = phaseData[phase];
+  document.getElementById('detail-phase-label').textContent = data.label;
+  renderTagCloud(data.tags);
+  renderTabContent(phase, currentTab);
+}
+
+function renderTagCloud(tags) {
+  const passTypes = ['ssl-ok','https-ok','mobile-ok','robots-ok','ssl-valid','dr-44','trust-flow-32','brand-mentions-ok','anchor-diversity-good','backlinks-1847','referring-domains-240'];
+  const failTypes = ['canonical-error','lcp-fail','missing-h1','duplicate-meta','no-gbp','nap-inconsistent','local-schema-missing','city-pages-missing','thin-content'];
+
+  const cloud = document.getElementById('detail-tags');
+  cloud.innerHTML = tags.map(t => {
+    let cls = '';
+    if (passTypes.some(p => t.includes(p.replace('-ok','')) && t.includes('ok') || t === p)) cls = 'pass';
+    else if (failTypes.some(f => t.includes(f.split('-')[0]))) cls = 'fail';
+    else cls = 'warn';
+    return `<span class="ev-tag ${cls}">${t}</span>`;
+  }).join('');
+}
+
+function renderTabContent(phase, tab) {
+  const content = document.getElementById('detail-content');
+  const data = phaseData[phase];
+
+  if (tab === 'evidence') {
+    content.innerHTML = data.evidence.map(e => `
+      <div class="evidence-item">
+        <div class="evidence-icon ev-${e.type}">${e.type === 'pass' ? '✓' : e.type === 'fail' ? '✕' : '!'}</div>
+        <div class="evidence-text">
+          <div class="evidence-title">${e.title}</div>
+          <div class="evidence-desc">${e.desc}</div>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    const passTypes = ['ssl-valid','https-ok','mobile-ok','robots-ok','dr-44','backlinks-1847','anchor-diversity-good','referring-domains-240','trust-flow-32','brand-mentions-ok'];
+    content.innerHTML = `<div class="tag-cloud" style="margin-top:0">` + data.tags.map(t => {
+      let cls = passTypes.some(p => t.includes(p.split('-')[0]) && (t.includes('ok') || t.includes('valid') || t.includes('good') || t === p)) ? 'pass' : 
+                (t.includes('missing') || t.includes('fail') || t.includes('no-gbp') || t.includes('inconsistent') || t.includes('gap')) ? 'fail' : 'warn';
+      return `<span class="ev-tag ${cls}" style="font-size:12px;padding:5px 14px">${t}</span>`;
+    }).join('') + '</div>';
+  }
+}
+</script>
+
+<!-- ═══════════════════════════════════════════
+     ORIGINAL SEO DEMO CONTENT ENDS HERE
+     ═══════════════════════════════════════════ -->
+
+<!-- WATERMARK STRIP -->
+<div class="ds-watermark">
+  <span class="ds-watermark-brand">DEMO SPRINT</span>
+  <span class="ds-watermark-sep">·</span>
+  <span>Built in 72 hours · $249</span>
+  <span class="ds-watermark-sep">·</span>
+  <button class="ds-watermark-cta" onclick="openBriefModal()">Get yours built →</button>
+</div>
+
+<script src="../../js/supabase-client.js"></script>
+<script src="../../js/brief-modal.js"></script>
+</body>
+</html>
+

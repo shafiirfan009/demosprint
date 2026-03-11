@@ -1,5 +1,71 @@
 # Demo Sprint — Setup Guide
 
+## Brief Automation v2 (Gmail + Vercel + Supabase)
+
+This repo now includes:
+- multipart brief submission API: `POST /api/briefs/submit`
+- optional attachments in brief step 5 (max 3 files, 10MB each)
+- generated PDF summary saved to Supabase storage
+- two emails per brief (internal + lead) via Gmail SMTP
+- admin dashboard: `/admin/briefs` with Supabase magic-link auth
+
+### 0. Install dependencies
+
+```bash
+npm install
+```
+
+### 0.1 Database + storage migration
+
+Run:
+
+```sql
+-- in Supabase SQL editor
+\i sql/briefs_v2.sql
+```
+
+If your SQL editor does not support `\i`, copy-paste the file content from:
+- `sql/briefs_v2.sql`
+
+### 0.2 Environment variables (Vercel Project Settings)
+
+Set these variables:
+
+```bash
+SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+SUPABASE_BRIEF_BUCKET=brief-assets
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=yourgmail@gmail.com
+SMTP_APP_PASSWORD=your_google_app_password
+MAIL_FROM=yourgmail@gmail.com
+INTERNAL_BRIEF_TO=yourgmail@gmail.com
+
+ADMIN_EMAIL_ALLOWLIST=yourgmail@gmail.com
+APP_BASE_URL=https://your-vercel-domain.vercel.app
+```
+
+### 0.3 Gmail requirements
+
+- Enable 2-step verification for your Google account.
+- Create an App Password for Mail and use it as `SMTP_APP_PASSWORD`.
+- Sender is `MAIL_FROM` (defaults to `SMTP_USER` if omitted).
+
+### 0.4 Supabase Auth setting for magic link
+
+- In Supabase Auth settings, configure site URL and redirect URL:
+  - `https://your-vercel-domain.vercel.app/admin/briefs`
+
+### 0.5 Where to view briefs
+
+- In-app dashboard: `/admin/briefs`
+- Raw table: Supabase `public.leads`
+
+---
+
 ## 1. Supabase Setup (10 minutes)
 
 ### Create your account

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Briefs — Demo Sprint</title>
+<link rel="stylesheet" href="../../css/shared.css">
+<style>
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  margin: 0;
+  min-height: 100vh;
+}
+.admin-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+}
+.admin-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.admin-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0;
+}
+.admin-sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.admin-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.admin-btn:hover { border-color: var(--amber); color: var(--amber); }
+.admin-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+}
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 14px;
+}
+.admin-auth {
+  max-width: 460px;
+  margin: 48px auto;
+}
+.admin-auth h2 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 30px;
+}
+.admin-note {
+  color: var(--muted);
+  font-size: 13px;
+}
+.admin-inline {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.admin-inline .ms-input { flex: 1; }
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.admin-table th {
+  font-family: var(--mono);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.admin-row-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+}
+.admin-row-btn:hover { color: var(--amber); }
+.status-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 4px 8px;
+  display: inline-block;
+  border: 1px solid var(--border2);
+}
+.status-pill.sent { color: var(--green); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.1); }
+.status-pill.failed { color: var(--red); border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.1); }
+.status-pill.pending { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
+.admin-detail-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+.admin-kv {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 8px 10px;
+  font-size: 13px;
+}
+.admin-kv .k { color: var(--muted); font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase; }
+.admin-pre {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 0;
+}
+.admin-links a {
+  color: var(--amber);
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 6px;
+}
+.admin-links a:hover { text-decoration: underline; }
+.admin-empty {
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+@media (max-width: 900px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .admin-kv { grid-template-columns: 1fr; }
+  .admin-inline { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+  <div id="admin-auth" class="admin-card admin-auth">
+    <h2>Admin Briefs</h2>
+    <p class="admin-note">Sign in with your allowlisted admin email to view submitted briefs.</p>
+    <div class="admin-inline">
+      <input id="admin-email" class="ms-input" type="email" placeholder="you@gmail.com">
+      <button id="admin-send-link" class="admin-btn">Send magic link</button>
+    </div>
+    <p id="admin-auth-msg" class="admin-note"></p>
+  </div>
+
+  <section id="admin-app" style="display:none;">
+    <div class="admin-top">
+      <div>
+        <h1 class="admin-title">Brief Inbox</h1>
+        <p class="admin-sub">View submissions, open details, download assets, resend failed emails.</p>
+      </div>
+      <div>
+        <button id="admin-refresh" class="admin-btn">Refresh</button>
+        <button id="admin-logout" class="admin-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Brief</th>
+              <th>Client</th>
+              <th>Status</th>
+              <th>Submitted</th>
+            </tr>
+          </thead>
+          <tbody id="admin-brief-list"></tbody>
+        </table>
+      </div>
+
+      <div class="admin-card">
+        <h3 class="admin-detail-title">Brief Detail</h3>
+        <div id="admin-brief-detail" class="admin-empty">Select a brief to view full details.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../js/supabase-client.js"></script>
+<script src="../../js/admin-briefs.js"></script>
+</body>
+</html>
+

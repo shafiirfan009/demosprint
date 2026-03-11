@@ -327,6 +327,81 @@
 }
 .ms-field-err.show { display: block; }
 
+.ms-file-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ms-file-input::file-selector-button {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.ms-file-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-file-empty {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+}
+
+.ms-file-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.ms-file-name {
+  color: var(--text);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.ms-file-size {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.ms-file-remove {
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.ms-file-remove:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
 /* ── OPTION CARDS (compact for modal) ────── */
 .ms-options { display: grid; gap: 6px; }
 .ms-options.cols2 { grid-template-columns: 1fr 1fr; }

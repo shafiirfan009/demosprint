@@ -1,0 +1,16 @@
+{
+  "name": "demosprint",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo Sprint landing + brief automation",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "formidable": "^3.5.4",
+    "nodemailer": "^6.9.16",
+    "pdfkit": "^0.17.2"
+  }
+}
+

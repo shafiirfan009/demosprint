@@ -197,6 +197,14 @@
           <label class="ms-label">Links — Figma, live site, inspiration (optional)</label>
           <textarea class="ms-textarea" id="ms-links" placeholder="https://yoursite.com&#10;https://figma.com/your-file" maxlength="400" style="min-height:70px"></textarea>
         </div>
+        <div class="ms-field">
+          <label class="ms-label">Attach files (optional)
+            <span class="hint">Up to 3 files (PDF, PNG, JPG, WEBP), max 10MB each.</span>
+          </label>
+          <input class="ms-file-input" type="file" id="ms-attachments" multiple accept=".pdf,image/png,image/jpeg,image/webp">
+          <div class="ms-file-list" id="ms-file-list"></div>
+          <div class="ms-field-err" id="err-attachments">File validation failed.</div>
+        </div>
 
         <div class="ms-nav">
           <button class="ms-back" onclick="msPrev(5)">Back</button>
@@ -255,7 +263,7 @@
       <div class="ms-success" id="ms-success">
         <div class="ms-success-icon">✓</div>
         <h2 class="ms-success-title">Brief received.</h2>
-        <p class="ms-success-sub">I'll review your brief and confirm the demo scope within 4 hours. Your live link will be in your inbox in 72 hours.</p>
+        <p class="ms-success-sub" id="ms-success-sub">I'll review your brief and confirm the demo scope within 4 hours. Your live link will be in your inbox in 72 hours.</p>
         <div class="ms-success-detail">
           <div class="ms-success-row"><span class="ms-success-icon2">📋</span><span class="ms-success-text">Brief submitted for <strong id="ms-suc-name">your product</strong></span></div>
           <div class="ms-success-row"><span class="ms-success-icon2">⚡</span><span class="ms-success-text">Demo focus: <strong id="ms-suc-focus">identified</strong></span></div>
@@ -286,6 +294,8 @@
       if (cc) { cc.textContent = this.value.length + ' / 400'; cc.className = 'ms-counter' + (this.value.length > 350 ? ' warn' : ''); }
       msUpdateInsight();
     });
+    const attachmentsEl = document.getElementById('ms-attachments');
+    if (attachmentsEl) attachmentsEl.addEventListener('change', msHandleAttachmentInput);
 
     // Close on overlay click
     const overlay = document.getElementById('dsBriefOverlay');
@@ -310,6 +320,13 @@
 let msCurrentStep = 1;
 const msTotalSteps = 6;
 const msData = {};
+let msAttachmentFiles = [];
+const msAttachmentRule = {
+  maxFiles: 3,
+  maxSize: 10 * 1024 * 1024,
+  allowedTypes: new Set(['application/pdf', 'image/png', 'image/jpeg', 'image/webp']),
+};
+const msDefaultSuccessSub = "I'll review your brief and confirm the demo scope within 4 hours. Your live link will be in your inbox in 72 hours.";
 
 const msInsightMap = {
   report:    { focus: 'the final audit/diagnostic report screen',     detail: 'I\'ll build the <strong>results output page</strong> — scores, findings, evidence, and recommendations — with realistic pre-seeded data.' },
@@ -326,6 +343,7 @@ const msInsightMap = {
 function openBriefModal() {
   const overlay = document.getElementById('dsBriefOverlay');
   if (!overlay) return;
+  msResetFormState();
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   msCurrentStep = 1;
@@ -338,6 +356,49 @@ function closeBriefModal() {
   if (!overlay) return;
   overlay.classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function msResetFormState() {
+  Object.keys(msData).forEach((key) => delete msData[key]);
+  msAttachmentFiles = [];
+
+  document.querySelectorAll('#dsBriefOverlay .ms-step input, #dsBriefOverlay .ms-step textarea').forEach((el) => {
+    if (el.type === 'hidden' || el.type === 'text' || el.type === 'email' || el.type === 'file' || el.tagName === 'TEXTAREA') {
+      el.value = '';
+    }
+  });
+
+  document.querySelectorAll('#dsBriefOverlay .ms-option.sel, #dsBriefOverlay .ms-pill.sel').forEach((el) => {
+    el.classList.remove('sel');
+  });
+  document.querySelectorAll('#dsBriefOverlay .ms-field-err.show').forEach((el) => {
+    el.classList.remove('show');
+  });
+  document.querySelectorAll('#dsBriefOverlay .ms-input.error').forEach((el) => {
+    el.classList.remove('error');
+  });
+
+  const descCounter = document.getElementById('cc-desc');
+  const momentCounter = document.getElementById('cc-moment');
+  if (descCounter) descCounter.textContent = '0 / 300';
+  if (momentCounter) momentCounter.textContent = '0 / 400';
+
+  const insight = document.getElementById('ms-insight');
+  if (insight) insight.classList.remove('show');
+
+  const success = document.getElementById('ms-success');
+  if (success) success.classList.remove('show');
+  const successSub = document.getElementById('ms-success-sub');
+  if (successSub) successSub.textContent = msDefaultSuccessSub;
+
+  const submitBtn = document.getElementById('ms-submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Brief';
+  }
+
+  msSetAttachmentError('');
+  msRenderAttachmentList();
 }
 
 // ── STEP NAVIGATION ───────────────────────────
@@ -430,6 +491,128 @@ function msCollect(step) {
   });
 }
 
+function msSetAttachmentError(message) {
+  const err = document.getElementById('err-attachments');
+  if (!err) return;
+  if (!message) {
+    err.classList.remove('show');
+    err.textContent = 'File validation failed.';
+    return;
+  }
+  err.textContent = message;
+  err.classList.add('show');
+}
+
+function msHandleAttachmentInput(event) {
+  const input = event.target;
+  const files = Array.from(input.files || []);
+  if (!files.length) return;
+
+  msSetAttachmentError('');
+  const next = [...msAttachmentFiles];
+  for (const file of files) {
+    if (next.length >= msAttachmentRule.maxFiles) {
+      msSetAttachmentError(`You can upload up to ${msAttachmentRule.maxFiles} files.`);
+      break;
+    }
+    if (!msAttachmentRule.allowedTypes.has(file.type)) {
+      msSetAttachmentError(`Unsupported file type: ${file.type || 'unknown'}.`);
+      continue;
+    }
+    if (file.size > msAttachmentRule.maxSize) {
+      msSetAttachmentError(`${file.name} exceeds the 10MB limit.`);
+      continue;
+    }
+    next.push(file);
+  }
+
+  msAttachmentFiles = next;
+  input.value = '';
+  msRenderAttachmentList();
+}
+
+function msRenderAttachmentList() {
+  const list = document.getElementById('ms-file-list');
+  if (!list) return;
+  if (!msAttachmentFiles.length) {
+    list.innerHTML = '<div class="ms-file-empty">No files attached.</div>';
+    return;
+  }
+
+  list.innerHTML = msAttachmentFiles
+    .map((file, index) => {
+      const sizeText = `${Math.max(1, Math.round(file.size / 1024))} KB`;
+      return `
+        <div class="ms-file-item">
+          <span class="ms-file-name">${file.name}</span>
+          <span class="ms-file-size">${sizeText}</span>
+          <button type="button" class="ms-file-remove" onclick="msRemoveAttachment(${index})">Remove</button>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+function msRemoveAttachment(index) {
+  msAttachmentFiles = msAttachmentFiles.filter((_, i) => i !== index);
+  msRenderAttachmentList();
+}
+
+function msBuildPayload() {
+  return {
+    product_name: msData['ms-product-name'] || '',
+    product_desc: msData['ms-product-desc'] || '',
+    end_user: msData['ms-end-user'] || '',
+    audience: msData['ms-audience'] || '',
+    desired_action: msData['ms-action'] || '',
+    output_type: msData['ms-output'] || '',
+    value_moment: msData['ms-value-moment'] || '',
+    build_status: msData['ms-status'] || '',
+    screen_count: msData['ms-screens'] || '',
+    seed_data: msData['ms-seed-data'] || '',
+    references: msData['ms-references'] || '',
+    visual_style: msData['ms-style'] || '',
+    brand_colors: msData['ms-colors'] || '',
+    links: msData['ms-links'] || '',
+    deadline: msData['ms-deadline'] || '',
+    urgency: msData['ms-urgency'] || '',
+    client_name: msData['ms-name'] || '',
+    client_email: msData['ms-email'] || '',
+    extra_notes: msData['ms-extra'] || '',
+    source_page: window.location.pathname,
+  };
+}
+
+function msShowSuccess(result) {
+  for (let i = 1; i <= msTotalSteps; i++) {
+    const el = document.getElementById('ms-step-' + i);
+    if (el) el.classList.remove('active');
+  }
+
+  const suc = document.getElementById('ms-success');
+  if (suc) suc.classList.add('show');
+
+  const fill = document.getElementById('dsProgressFill');
+  if (fill) fill.style.width = '100%';
+
+  const outputVal = msData['ms-output'] || 'other';
+  const insight = msInsightMap[outputVal] || msInsightMap.other;
+  const sucName = document.getElementById('ms-suc-name');
+  const sucFocus = document.getElementById('ms-suc-focus');
+  const sucEmail = document.getElementById('ms-suc-email');
+  if (sucName) sucName.textContent = msData['ms-product-name'] || 'your product';
+  if (sucFocus) sucFocus.textContent = insight.focus;
+  if (sucEmail) sucEmail.textContent = msData['ms-email'] || 'your email';
+
+  const successSub = document.getElementById('ms-success-sub');
+  if (successSub && result && result.email_status === 'failed') {
+    successSub.textContent = 'Brief received and saved. Email delivery failed this time, but your submission is recorded.';
+  }
+
+  const modal = document.querySelector('.ds-modal');
+  if (modal) modal.scrollTop = 0;
+}
+
 // ── OPTION / PILL SELECTION ───────────────────
 function msOption(card, group, value) {
   card.closest('.ms-options').querySelectorAll('.ms-option').forEach(c => c.classList.remove('sel'));
@@ -464,40 +647,34 @@ function msUpdateInsight() {
 // ── SUBMIT ────────────────────────────────────
 async function msSubmit() {
   if (!msValidate(6)) return;
-  msCollect(6);
+  for (let step = 1; step <= msTotalSteps; step += 1) msCollect(step);
 
   const btn = document.getElementById('ms-submit-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
   try {
-    await submitLeadToSupabase(msData);
-  } catch (e) {
-    console.error('Supabase submit failed:', e);
-    // Still show success — log the error, don't block the UX
-    // In production you could also POST to a fallback email service here
+    const payload = msBuildPayload();
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify(payload));
+    msAttachmentFiles.forEach((file) => formData.append('attachments', file, file.name));
+
+    const response = await fetch('/api/briefs/submit', {
+      method: 'POST',
+      body: formData,
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || 'Submission failed');
+    }
+
+    msShowSuccess(result);
+  } catch (error) {
+    console.error('Brief submit failed:', error);
+    msSetAttachmentError(error.message || 'Unable to submit brief right now.');
+    alert(error.message || 'Unable to submit brief right now.');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Send Brief';
+    }
   }
-
-  // Show success
-  for (let i = 1; i <= msTotalSteps; i++) {
-    const el = document.getElementById('ms-step-' + i);
-    if (el) el.classList.remove('active');
-  }
-
-  const suc = document.getElementById('ms-success');
-  if (suc) suc.classList.add('show');
-
-  const fill = document.getElementById('dsProgressFill');
-  if (fill) fill.style.width = '100%';
-
-  const outputVal = msData['ms-output'] || 'other';
-  const ins = msInsightMap[outputVal] || msInsightMap.other;
-  const sucName  = document.getElementById('ms-suc-name');
-  const sucFocus = document.getElementById('ms-suc-focus');
-  const sucEmail = document.getElementById('ms-suc-email');
-  if (sucName)  sucName.textContent  = msData['ms-product-name'] || 'your product';
-  if (sucFocus) sucFocus.textContent = ins.focus;
-  if (sucEmail) sucEmail.textContent = msData['ms-email'] || 'your email';
-
-  const modal = document.querySelector('.ds-modal');
-  if (modal) modal.scrollTop = 0;
 }

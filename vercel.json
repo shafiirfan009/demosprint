@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/admin/briefs", "destination": "/admin/briefs/index.html" },
     { "source": "/demos/seo",   "destination": "/demos/seo/index.html" },
     { "source": "/demos/crm",   "destination": "/demos/crm/index.html" },
     { "source": "/demos/brand", "destination": "/demos/brand/index.html" }

@@ -17,6 +17,7 @@ body {
   font-family: var(--body);
   min-height: 100vh;
   overflow-x: hidden;
+  line-height: 1.55;
 }
 
 body::before {
@@ -29,14 +30,15 @@ body::before {
 /* NAV */
 nav {
   position: fixed; top:0; left:0; right:0;
-  height: 56px;
-  background: rgba(9,9,11,0.9);
+  height: 60px;
+  background: rgba(9,9,11,0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
   justify-content: space-between;
   padding: 0 40px;
   z-index: 100;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.28);
 }
 
 .nav-logo {
@@ -67,11 +69,11 @@ section { position: relative; z-index:5; }
 
 /* ── HERO ── */
 .hero {
-  min-height: 100vh;
+  min-height: 96vh;
   display: flex; flex-direction: column;
   justify-content: center; align-items: center;
   text-align: center;
-  padding: 120px 24px 80px;
+  padding: 132px 24px 88px;
 }
 
 .hero-eyebrow {
@@ -102,17 +104,17 @@ section { position: relative; z-index:5; }
 }
 
 .hero-sub {
-  font-size: clamp(16px, 2vw, 20px);
-  font-weight: 300;
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 400;
   color: var(--muted);
-  max-width: 560px;
-  line-height: 1.7;
-  margin: 16px auto 40px;
+  max-width: 640px;
+  line-height: 1.8;
+  margin: 18px auto 44px;
 }
 
 .hero-cta-row {
   display:flex; align-items:center; justify-content:center;
-  gap: 16px; flex-wrap:wrap; margin-bottom:56px;
+  gap: 14px; flex-wrap:wrap; margin-bottom:64px;
 }
 
 .btn-primary {
@@ -129,11 +131,15 @@ section { position: relative; z-index:5; }
 }
 .btn-primary::after { content:'→'; }
 .btn-primary:hover { background:#fbbf24; transform:translateY(-2px); box-shadow:0 10px 30px rgba(245,158,11,0.25); }
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--amber-dim), 0 10px 30px rgba(245,158,11,0.25);
+}
 
 .btn-secondary {
   font-family: var(--mono);
-  font-size: 13px; letter-spacing:0.06em;
-  color: var(--muted);
+  font-size: 12px; letter-spacing:0.08em;
+  color: var(--text);
   background: none;
   border: 1px solid var(--border);
   padding: 14px 28px;
@@ -141,16 +147,21 @@ section { position: relative; z-index:5; }
   cursor: pointer;
   transition: all 0.2s;
 }
-.btn-secondary:hover { border-color:var(--border2); color:var(--text); }
+.btn-secondary:hover { border-color:var(--border2); color:var(--text); background:rgba(255,255,255,0.04); }
+.btn-secondary:focus-visible {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-dim);
+}
 
 .hero-trust {
   display:flex; align-items:center; gap:28px;
   font-family: var(--mono);
-  font-size: 11px; letter-spacing:0.08em;
-  color: var(--dim);
+  font-size: 11px; letter-spacing:0.09em;
+  color: var(--muted);
   flex-wrap:wrap; justify-content:center;
 }
-.hero-trust-item { display:flex; align-items:center; gap:7px; }
+.hero-trust-item { display:flex; align-items:center; gap:7px; line-height:1.4; }
 .hero-trust-item svg { flex-shrink:0; }
 
 /* ── GRID BG ── */
@@ -173,7 +184,7 @@ section { position: relative; z-index:5; }
 
 /* ── HOW IT WORKS ── */
 .how {
-  padding: 100px 24px;
+  padding: 112px 24px;
   max-width: 900px; margin:0 auto;
 }
 
@@ -193,7 +204,7 @@ section { position: relative; z-index:5; }
   font-weight:800; line-height:1.1;
   letter-spacing:-0.02em;
   color: var(--text);
-  margin-bottom:48px;
+  margin-bottom:52px;
 }
 .section-title em { font-style:italic; font-weight:300; color:var(--amber); }
 
@@ -201,7 +212,7 @@ section { position: relative; z-index:5; }
 
 .step-item {
   display:flex; gap:28px; align-items:flex-start;
-  padding: 28px 0;
+  padding: 32px 0;
   border-bottom: 1px solid var(--border);
 }
 .step-item:last-child { border:none; }
@@ -220,17 +231,17 @@ section { position: relative; z-index:5; }
 }
 
 .step-content h3 {
-  font-size:17px; font-weight:600;
+  font-size:18px; font-weight:600;
   color:var(--text); margin-bottom:6px;
 }
 .step-content p {
-  font-size:14px; font-weight:300;
-  color:var(--muted); line-height:1.7;
+  font-size:15px; font-weight:400;
+  color:var(--muted); line-height:1.75;
 }
 
 /* ── THREE PRODUCTS ── */
 .products {
-  padding: 100px 24px;
+  padding: 112px 24px;
   background: var(--surface);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -241,19 +252,24 @@ section { position: relative; z-index:5; }
 .products-grid {
   display:grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top:48px;
+  gap: 22px;
+  margin-top:52px;
 }
 
 .product-card {
-  background: var(--bg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0) 60%), var(--bg);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 28px;
+  border-radius: 12px;
+  padding: 30px;
   display:flex; flex-direction:column; gap:0;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.24);
 }
-.product-card:hover { border-color:var(--amber); transform:translateY(-3px); }
+.product-card:hover {
+  border-color: rgba(245,158,11,0.4);
+  transform:translateY(-5px);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.35);
+}
 
 .product-icon {
   font-size:28px; margin-bottom:16px;
@@ -261,68 +277,62 @@ section { position: relative; z-index:5; }
 
 .product-tag {
   font-family: var(--mono);
-  font-size:10px; letter-spacing:0.14em;
+  font-size:10px; letter-spacing:0.16em;
   text-transform:uppercase;
   color: var(--amber);
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .product-title {
   font-family: var(--serif);
-  font-size:22px; font-weight:800;
-  color:var(--text); margin-bottom:10px;
+  font-size:23px; font-weight:800;
+  color:var(--text); margin-bottom:12px;
   line-height:1.2;
 }
 
 .product-desc {
-  font-size:13px; font-weight:300;
-  color:var(--muted); line-height:1.7;
-  margin-bottom:20px; flex:1;
-}
-
-.product-target {
-  font-family: var(--mono);
-  font-size:10px; letter-spacing:0.08em;
-  color:var(--dim);
-  padding: 8px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius:4px;
-  margin-bottom:20px;
+  font-size:14px; font-weight:400;
+  color:var(--muted); line-height:1.8;
+  margin-bottom:24px; flex:1;
 }
 
 .product-demo-link {
   font-family: var(--mono);
-  font-size:11px; letter-spacing:0.06em;
-  color:var(--muted);
+  font-size:11px; letter-spacing:0.08em;
+  color:var(--text);
   text-decoration:none;
   border:1px solid var(--border);
   border-radius:4px;
-  padding: 8px 14px;
+  background: rgba(255,255,255,0.02);
+  padding: 9px 14px;
   display:flex; align-items:center; gap:7px;
   transition: all 0.2s;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
-.product-demo-link:hover { border-color:var(--border2); color:var(--text); }
+.product-demo-link:hover { border-color:rgba(245,158,11,0.38); color:var(--text); background:rgba(255,255,255,0.04); }
 .product-demo-link::before { content:'↗'; font-size:10px; }
 
 .product-cta {
   font-family: var(--body);
-  font-size:13px; font-weight:600;
+  font-size:14px; font-weight:600;
   color: var(--bg);
   background: var(--amber);
   border: none;
-  padding: 10px 20px;
-  border-radius:4px;
+  padding: 12px 20px;
+  border-radius:6px;
   cursor: pointer;
   width:100%;
   transition: all 0.2s;
 }
-.product-cta:hover { background:#fbbf24; }
+.product-cta:hover { background:#fbbf24; transform:translateY(-1px); box-shadow:0 8px 20px rgba(245,158,11,0.2); }
+.product-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--amber-dim), 0 8px 20px rgba(245,158,11,0.2);
+}
 
 /* ── PRICING ── */
 .pricing {
-  padding: 100px 24px;
+  padding: 112px 24px;
   max-width: 700px; margin:0 auto;
   text-align:center;
 }
@@ -359,7 +369,7 @@ section { position: relative; z-index:5; }
   font-family: var(--mono);
   font-size:11px; letter-spacing:0.14em;
   text-transform:uppercase;
-  color:var(--muted); margin-bottom:32px;
+  color:var(--muted); margin-bottom:34px;
 }
 
 .price-features {
@@ -369,7 +379,7 @@ section { position: relative; z-index:5; }
 
 .price-feature {
   display:flex; align-items:flex-start; gap:12px;
-  font-size:15px; font-weight:300; color:var(--text); line-height:1.5;
+  font-size:15px; font-weight:400; color:var(--text); line-height:1.55;
 }
 
 .price-feature-check {
@@ -387,7 +397,7 @@ section { position: relative; z-index:5; }
 .price-guarantee {
   font-family: var(--mono);
   font-size:11px; letter-spacing:0.08em;
-  color:var(--amber); text-align:center;
+  color:var(--text); text-align:center;
   display:flex; align-items:center; justify-content:center; gap:8px;
 }
 .price-guarantee::before { content:'🛡'; }
@@ -412,7 +422,7 @@ section { position: relative; z-index:5; }
 /* ── FOOTER ── */
 footer {
   border-top:1px solid var(--border);
-  padding: 32px 40px;
+  padding: 36px 40px;
   display:flex; align-items:center; justify-content:space-between;
   flex-wrap:wrap; gap:16px;
   position:relative; z-index:5;
@@ -428,7 +438,7 @@ footer {
 
 .footer-meta {
   font-family:var(--mono);
-  font-size:11px; color:var(--dim); letter-spacing:0.06em;
+  font-size:11px; color:var(--muted); letter-spacing:0.06em;
 }
 
 .footer-cta {
@@ -443,12 +453,33 @@ footer {
 }
 .footer-cta:hover { background:#fbbf24; }
 
+@media (max-width:1024px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width:768px) {
   nav { padding:0 20px; }
+  .hero { padding:112px 20px 74px; }
+  .hero-sub { max-width: 92vw; }
+  .hero-trust { gap:16px; }
+  .how { padding-top:96px; padding-bottom:96px; }
+  .products { padding-top:96px; padding-bottom:96px; }
+  .pricing { padding-top:96px; padding-bottom:96px; }
   .products-grid { grid-template-columns:1fr; }
-  .hero { padding:100px 20px 60px; }
   .how, .products-inner, .pricing { padding-left:20px; padding-right:20px; }
   footer { padding:24px 20px; }
+}
+
+@media (max-width:540px) {
+  .hero-eyebrow { letter-spacing: 0.16em; }
+  .hero-cta-row { width: 100%; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+  .step-item { gap:18px; padding:24px 0; }
+  .price-card { padding:36px 22px; }
+}
+
+@media (max-height:760px) {
+  .hero { min-height: auto; padding-top: 116px; }
 }
 </style>
 </head>
@@ -563,7 +594,6 @@ footer {
         <div class="product-tag">Investor Demo</div>
         <div class="product-title">SEO Diagnostic</div>
         <div class="product-desc">Makes investors ask "how do I get access?" not "so what does this do?" Built for pre-seed founders 2–8 weeks from their pitch.</div>
-        <div class="product-target">→ Target: Pre-seed founders · Pitch prep</div>
         <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
         <a class="product-demo-link" href="https://seo-demo-kohl.vercel.app/" target="_blank" rel="noopener">View live demo</a>
         <button class="product-cta" onclick="openBriefModal()">Build mine →</button>
@@ -575,7 +605,6 @@ footer {
         <div class="product-tag">Brand Exploration Demo</div>
         <div class="product-title">Aura vs Aurabella</div>
         <div class="product-desc">Interactive brand identity comparison. Three directions, two name options, colour palettes in context. See your brand before paying a designer.</div>
-        <div class="product-target">→ Target: Founders pre-launch · Brand decisions</div>
         <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
         <a class="product-demo-link" href="https://brand-exploration-aura-vs-aurabella-xi.vercel.app/" target="_blank" rel="noopener">View live demo</a>
         <button class="product-cta" onclick="openBriefModal()">Build mine →</button>
@@ -587,7 +616,6 @@ footer {
         <div class="product-tag">Sales Demo</div>
         <div class="product-title">SimpleCRM Dashboard</div>
         <div class="product-desc">Interactive walkthrough sent to leads instead of a PDF. Full pipeline view, live actions, realistic data. Closes B2B deals before the call.</div>
-        <div class="product-target">→ Target: B2B SaaS · Complex-service sellers</div>
         <!-- REPLACE HREF WITH YOUR DEPLOYED URL -->
         <a class="product-demo-link" href="https://simple-crm-demo-rpqa.vercel.app/" target="_blank" rel="noopener">View live demo</a>
         <button class="product-cta" onclick="openBriefModal()">Build mine →</button>

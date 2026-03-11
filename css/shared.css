@@ -7,16 +7,16 @@
 
 :root {
   --bg:           #09090b;
-  --surface:      #111113;
-  --surface2:     #18181c;
-  --border:       #27272a;
-  --border2:      #3f3f46;
-  --text:         #fafafa;
-  --muted:        #71717a;
-  --dim:          #3f3f46;
+  --surface:      #121319;
+  --surface2:     #1a1d24;
+  --border:       rgba(255,255,255,0.1);
+  --border2:      rgba(255,255,255,0.2);
+  --text:         #f7f3ec;
+  --muted:        #bcc4cf;
+  --dim:          #8f98a3;
   --amber:        #f59e0b;
-  --amber-dim:    rgba(245,158,11,0.1);
-  --amber-border: rgba(245,158,11,0.2);
+  --amber-dim:    rgba(245,158,11,0.16);
+  --amber-border: rgba(245,158,11,0.34);
   --green:        #22c55e;
   --red:          #f87171;
   --mono:  'DM Mono', monospace;
@@ -133,7 +133,7 @@
 .ds-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0,0,0,0.82);
   backdrop-filter: blur(4px);
   z-index: 9000;
   display: none;
@@ -153,17 +153,18 @@
 }
 
 .ds-modal {
-  background: var(--bg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)) , var(--bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   width: 100%;
-  max-width: 620px;
-  max-height: 88vh;
+  max-width: 680px;
+  max-height: min(900px, calc(100vh - 28px));
   overflow-y: auto;
   position: relative;
   animation: modalIn 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
   scrollbar-width: thin;
   scrollbar-color: var(--border2) transparent;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.52);
 }
 
 @keyframes modalIn {
@@ -175,12 +176,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 28px 16px;
+  padding: 22px 30px 17px;
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  background: var(--bg);
+  background: rgba(9,9,11,0.94);
   z-index: 10;
+  backdrop-filter: blur(10px);
 }
 
 .ds-modal-title {
@@ -200,7 +202,7 @@
   background: none;
   border: 1px solid var(--border);
   border-radius: 4px;
-  color: var(--muted);
+  color: var(--dim);
   font-size: 16px;
   width: 28px;
   height: 28px;
@@ -214,18 +216,24 @@
 
 .ds-modal-close:hover {
   border-color: var(--border2);
+  background: rgba(255,255,255,0.04);
   color: var(--text);
+}
+.ds-modal-close:focus-visible {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-dim);
 }
 
 .ds-modal-body {
-  padding: 28px;
+  padding: 30px;
 }
 
 /* ── MODAL PROGRESS ─────────────────────── */
 .ds-modal-progress {
-  height: 2px;
+  height: 3px;
   background: var(--border);
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   border-radius: 1px;
   overflow: hidden;
 }
@@ -248,11 +256,11 @@
 
 .ms-num {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--amber);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .ms-title {
@@ -268,55 +276,56 @@
 .ms-title em { font-style: italic; font-weight: 300; color: var(--amber); }
 
 .ms-sub {
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--muted);
-  margin-bottom: 24px;
-  line-height: 1.6;
+  margin-bottom: 28px;
+  line-height: 1.72;
 }
 
 /* ── SHARED FORM ELEMENTS ───────────────── */
-.ms-field { margin-bottom: 16px; font-family: var(--body); }
+.ms-field { margin-bottom: 18px; font-family: var(--body); }
 
 .ms-label {
   display: block;
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #dbe1eb;
   margin-bottom: 8px;
 }
 
 .ms-label .req { color: var(--amber); margin-left: 2px; }
-.ms-label .hint { display: block; color: var(--dim); font-size: 9px;
-  text-transform: none; letter-spacing: 0.04em; margin-top: 2px; }
+.ms-label .hint { display: block; color: var(--dim); font-size: 10px;
+  text-transform: none; letter-spacing: 0.04em; margin-top: 4px; line-height: 1.45; }
 
 .ms-input,
 .ms-textarea {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 11px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 12px 14px;
   font-family: var(--body);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
   resize: none;
-  line-height: 1.5;
+  line-height: 1.56;
 }
 
-.ms-input::placeholder, .ms-textarea::placeholder { color: var(--dim); }
+.ms-input::placeholder, .ms-textarea::placeholder { color: #767f8d; }
 
 .ms-input:focus, .ms-textarea:focus {
   border-color: var(--amber);
+  background: rgba(255,255,255,0.055);
   box-shadow: 0 0 0 3px var(--amber-dim);
 }
 
 .ms-input.error { border-color: var(--red); }
-.ms-textarea { min-height: 90px; }
+.ms-textarea { min-height: 104px; }
 
 .ms-field-err {
   font-family: var(--mono);
@@ -329,17 +338,17 @@
 
 .ms-file-input {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
   padding: 10px 12px;
   font-family: var(--body);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .ms-file-input::file-selector-button {
-  background: var(--surface2);
+  background: rgba(255,255,255,0.06);
   border: 1px solid var(--border2);
   color: var(--text);
   border-radius: 4px;
@@ -371,17 +380,17 @@
   padding: 8px 10px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: var(--surface);
+  background: rgba(255,255,255,0.03);
 }
 
 .ms-file-name {
   color: var(--text);
-  font-size: 12px;
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 
 .ms-file-size {
-  color: var(--muted);
+  color: var(--dim);
   font-family: var(--mono);
   font-size: 10px;
 }
@@ -401,6 +410,11 @@
   border-color: var(--amber);
   color: var(--amber);
 }
+.ms-file-remove:focus-visible {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-dim);
+}
 
 /* ── OPTION CARDS (compact for modal) ────── */
 .ms-options { display: grid; gap: 6px; }
@@ -408,10 +422,10 @@
 .ms-options.cols3 { grid-template-columns: 1fr 1fr 1fr; }
 
 .ms-option {
-  background: var(--surface);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 12px 14px;
+  padding: 13px 14px;
   cursor: pointer;
   transition: all 0.15s;
   user-select: none;
@@ -434,8 +448,8 @@
   color: var(--amber);
 }
 
-.ms-option-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
-.ms-option-desc  { font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.4; }
+.ms-option-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.ms-option-desc  { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.5; }
 
 /* ── PILLS ───────────────────────────────── */
 .ms-pills { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -458,7 +472,7 @@
 
 /* ── INSIGHT BOX ─────────────────────────── */
 .ms-insight {
-  background: rgba(245,158,11,0.05);
+  background: rgba(245,158,11,0.09);
   border: 1px solid var(--amber-border);
   border-radius: 6px;
   padding: 14px 18px;
@@ -474,7 +488,7 @@
   color: var(--amber);
   margin-bottom: 6px;
 }
-.ms-insight-text { font-size: 13px; color: #e0c88a; line-height: 1.6; font-weight: 300; }
+.ms-insight-text { font-size: 13px; color: #e8d1a0; line-height: 1.64; font-weight: 400; }
 .ms-insight-text strong { color: var(--text); }
 
 /* ── NAV BUTTONS ─────────────────────────── */
@@ -482,8 +496,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 24px;
-  padding-top: 20px;
+  margin-top: 30px;
+  padding-top: 22px;
   border-top: 1px solid var(--border);
 }
 
@@ -521,6 +535,10 @@
 }
 .ms-next::after { content: '→'; }
 .ms-next:hover { background: #fbbf24; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,158,11,0.25); }
+.ms-next:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--amber-dim), 0 6px 20px rgba(245,158,11,0.25);
+}
 
 .ms-submit {
   font-family: var(--body);
@@ -539,6 +557,10 @@
 }
 .ms-submit::after { content: '→'; }
 .ms-submit:hover { background: #4ade80; transform: translateY(-1px); }
+.ms-submit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+}
 .ms-submit:disabled {
   background: var(--border2);
   color: var(--muted);
@@ -588,10 +610,10 @@
 }
 
 .ms-success-sub {
-  font-size: 14px;
-  font-weight: 300;
+  font-size: 15px;
+  font-weight: 400;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.75;
   margin-bottom: 24px;
   max-width: 400px;
 }
@@ -631,8 +653,41 @@
 }
 .ms-counter.warn { color: var(--amber); }
 
+@media (max-width: 900px) {
+  .ds-modal {
+    max-width: 92vw;
+  }
+}
+
 @media (max-width: 640px) {
-  .ds-modal { max-height: 95vh; border-radius: 12px 12px 0 0; }
+  .ds-modal-overlay {
+    align-items: flex-end;
+    padding: 10px;
+  }
+  .ds-modal {
+    max-height: calc(100vh - 10px);
+    border-radius: 14px 14px 8px 8px;
+  }
+  .ds-modal-header {
+    padding: 18px 20px 14px;
+  }
   .ms-options.cols2, .ms-options.cols3 { grid-template-columns: 1fr; }
   .ds-modal-body { padding: 20px; }
+  .ms-title { font-size: 23px; }
+  .ms-sub { font-size: 13px; margin-bottom: 22px; }
+  .ms-nav { gap: 12px; }
+  .ms-next, .ms-submit {
+    min-height: 44px;
+  }
+}
+
+@media (max-height: 760px) {
+  .ds-modal-overlay {
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .ds-modal {
+    max-height: calc(100vh - 24px);
+  }
 }
